@@ -14,12 +14,11 @@ public class Deck {
 	// attributes 
 	private ArrayList<Card> cards;
 	
-	// empty deck
+	// constructors
 	public Deck() {
 			cards = new ArrayList<>();
 		}
 	
-	// custom deck of cards
 	public void setDeck(List<Card> list) {
 		cards = (ArrayList<Card>) list; 
 	}
@@ -46,7 +45,7 @@ public class Deck {
 		return cards.remove(cards.size()-1);
 	}
 	
-	public void putCardBeginning(Card card) {
+	public void putCardBottom(Card card) {
 		cards.add(0, card);
 	}
 	
