@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author catarinajoao
- * Represents a deck of cards.
+ * Represents a deck of playing cards.
  */
 public class Deck {
 	
@@ -30,6 +30,18 @@ public class Deck {
 		Collections.shuffle(cards);
 	}
 	
+	public int size() {
+		return cards.size();
+	}
+	
+	public boolean isEmpty() {
+		return cards.isEmpty();
+	}
+	
+	/**
+	 * @requires !isEmpty()
+	 * @return the card from on top of the deck
+	 */
 	public Card takeCard() {
 		return cards.remove(cards.size()-1);
 	}
@@ -43,6 +55,11 @@ public class Deck {
 	}
 	
 	public String toString() {
+		
+		if(cards.isEmpty()) {
+			return "There are no cards in the deck.";
+		}
+		
 		StringBuilder s = new StringBuilder();
 		
 		for(Card c: cards) {

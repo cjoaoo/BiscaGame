@@ -1,6 +1,6 @@
 package domain;
 
-public enum SuitEnum {
+public enum Suit {
 	SWORDS,
 	HEARTS,
 	DIAMONDS,
