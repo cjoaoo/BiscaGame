@@ -33,6 +33,7 @@ class CardDeckTests {
 
 
 	private void setUp() {
+		
 		listCards.add(twoOfHearts);
 		listCards.add(queenOfSwords);
 		listCards.add(queenOfHearts);
@@ -40,28 +41,48 @@ class CardDeckTests {
 	}
 	
 	@Test
-	void testCardCreationAndToString() {
+	void cardCreationAndToStringTest() {
+		
 		assertEquals(twoOfHearts.toString(), "Two of Hearts");
 		assertEquals(queenOfSwords.toString(), "Queen of Swords");
 		assertEquals(aceOfDiamonds.toString(), "Ace of Diamonds");
 	}
 	
 	@Test
-	void testRankComparison() {
+	void rankComparisonTest() {
 		
 		assertTrue(twoOfHearts.compareRank(queenOfSwords) < 0);
 		assertTrue(queenOfHearts.compareRank(queenOfSwords) == 0);
 		assertTrue(aceOfDiamonds.compareRank(queenOfSwords) > 0);
+		
+		assertTrue(aceOfDiamonds.isHigherRank(queenOfSwords));
+		assertFalse(queenOfHearts.isHigherRank(queenOfSwords));
+		
+		assertTrue(aceOfDiamonds.isHigherRank(RankBisca.KING));
+		assertFalse(queenOfHearts.isHigherRank(RankBisca.KING));
 	}
 	
 	@Test
-	void suitComparison() {		
+	void suitComparisonTest() {	
+		
 		assertTrue(twoOfHearts.isSameSuit(queenOfHearts));
-		assertTrue(!queenOfHearts.isSameSuit(queenOfSwords));	
+		assertFalse(queenOfHearts.isSameSuit(queenOfSwords));
+		
+		Suit trionfi = Suit.HEARTS;
+		assertTrue(twoOfHearts.isTrionfi(trionfi));
+		assertFalse(queenOfSwords.isTrionfi(trionfi));
 	}
 	
 	@Test
-	void deckCreation() {
+	void valuableTest() {
+		
+		assertTrue(queenOfHearts.isValuable());
+		assertFalse(twoOfHearts.isValuable());
+		
+	}
+	
+	@Test
+	void deckCreationTest() {
 		
 		setUp();
 
@@ -87,7 +108,7 @@ class CardDeckTests {
 	}
 	
 	@Test
-	void testTakePutCards() {
+	void TakePutCardsTest() {
 		
 		setUp();
 		Deck d = new Deck();
@@ -98,7 +119,7 @@ class CardDeckTests {
 		assertTrue(trunfo.equals(aceOfDiamonds));
 		assertTrue(d.size() == 3);
 		
-		d.putCardBeginning(trunfo);
+		d.putCardBottom(trunfo);
 		assertTrue(d.toString().startsWith(trunfo.toString()));
 		assertTrue(d.size() == 4);
 		

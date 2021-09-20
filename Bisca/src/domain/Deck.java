@@ -15,29 +15,46 @@ public class Deck {
 	private ArrayList<Card> cards;
 	
 	// constructors
+	/**
+	 * Creates an empty deck.
+	 */
 	public Deck() {
 			cards = new ArrayList<>();
 		}
 	
+	/**
+	 * Creates a specific deck.
+	 * @param list of cards to be put in the deck
+	 */
 	public void setDeck(List<Card> list) {
 		cards = (ArrayList<Card>) list; 
 	}
 	
 	// methods
 	
+	/**
+	 * Shuffles the deck.
+	 */
 	public void shuffle() {
 		Collections.shuffle(cards);
 	}
 	
+	/**
+	 * @return how many cards are in the deck
+	 */
 	public int size() {
 		return cards.size();
 	}
 	
+	/**
+	 * @return true if there are no cards in the deck
+	 */
 	public boolean isEmpty() {
 		return cards.isEmpty();
 	}
 	
 	/**
+	 * Takes a card from the top of the deck.
 	 * @requires !isEmpty()
 	 * @return the card from on top of the deck
 	 */
@@ -45,14 +62,15 @@ public class Deck {
 		return cards.remove(cards.size()-1);
 	}
 	
+	/**
+	 * Inserts a card in the bottom of the deck.
+	 * @param card to be put in the deck
+	 */
 	public void putCardBottom(Card card) {
 		cards.add(0, card);
 	}
 	
-	public void addCards(List<Card> playerCards) {
-		cards.addAll(playerCards);
-	}
-	
+	@Override
 	public String toString() {
 		
 		if(cards.isEmpty()) {
