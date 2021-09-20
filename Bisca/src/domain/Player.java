@@ -1,13 +1,14 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Player {
+abstract public class Player {
 	
 	// attributes
-	private String name;
+	protected String name;
 	private int gamesWon;
-	private ArrayList<Card> currentCards;
+	protected ArrayList<Card> currentCards;
 	private ArrayList<Card> cardsWon;
 
 	// constructor
@@ -19,6 +20,19 @@ public class Player {
 		gamesWon = 0;
 	}
 	
+	// getters
+	
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * @return number of games won by this player
+	 */
+	public int getGamesWon() {
+		return gamesWon;
+	}
+	
 	// methods
 	
 	public void startGame() {
@@ -26,9 +40,16 @@ public class Player {
 		cardsWon = new ArrayList<>();
 	}
 	
-	public String getName() {
-		return name;
+	public List<Card> showHand(){
+		ArrayList<Card> copy = new ArrayList<>();
+		for(Card c: currentCards) {
+			copy.add(c);
+		}
+		return copy;
 	}
+	
+	abstract public Card playFirst();
+	abstract public Card playSecond(Card c, Suit trionfiSuit);
 	
 	public void receiveCard(Card c) {
 		currentCards.add(c);
@@ -39,12 +60,10 @@ public class Player {
 		cardsWon.add(c2);
 	}
 	
-	/**
-	 * @return number of games won by this player
-	 */
-	public int gamesWon() {
-		return gamesWon;
+	public boolean stillHasCards() {
+		return !currentCards.isEmpty();
 	}
+	
 	
 	/**
 	 * @return sum of the points of the cards this player has won

@@ -3,18 +3,18 @@ package domain;
 public class Game {
 	
 	// constant
-	final static int SIZE_HAND = 3;
+	static final int SIZE_HAND = 3;
 	
 	// attributes
-	HumanPlayer user;
-	ComputerPlayer comp;
+	Player user;
+	Player comp;
 	
 	BiscaDeck deck;
-	Card trionfi; // the trump card
-	boolean computersTurn; // because the game is between two players, we can use a boolean
+	Suit trionfiSuit; // the trump suit
+	boolean computersTurn; // because the game is between two players, we can use a boolean to signal whose turn it is
 	
 	// constructor
-	public Game(ComputerPlayer comp, HumanPlayer user) {
+	public Game(Player comp, Player user) {
 		this.comp = comp;
 		this.user = user;
 		this.deck = new BiscaDeck();
@@ -37,8 +37,9 @@ public class Game {
 		}
 		
 		// trionfi is set and then put back in the deck
-		trionfi = deck.takeCard();
+		Card trionfi = deck.takeCard();
 		deck.putCardBottom(trionfi);
+		trionfiSuit = trionfi.getSuit();
 	}
 	
 	public void playRound() {
@@ -48,28 +49,24 @@ public class Game {
 		
 		// after the first round, whoever won the previous round plays first
 		if(computersTurn) {
-			compCard = comp.play();
-			userCard = user.play();
+			compCard = comp.playFirst();
+			userCard = user.playSecond(compCard, trionfiSuit);
 		}else {
-			userCard = user.play();
-			compCard = comp.play();
+			userCard = user.playFirst();
+			compCard = comp.playSecond(userCard, trionfiSuit);
 		}
 		
 		// the player who won this round takes the cards played
-		if(computerWins(compCard, userCard)) {	
-			comp.addToCardsWon(compCard, userCard);
-			computersTurn = true; // the computer plays first next time
-			if(!deck.isEmpty()) {
-				comp.receiveCard(deck.takeCard());	// the computer takes a card first
-				user.receiveCard(deck.takeCard());
-			}
-		}else {
-			user.addToCardsWon(compCard, userCard);
-			computersTurn = false; // the user plays first next time
-			if(!deck.isEmpty()) {
-				user.receiveCard(deck.takeCard()); // the user takes a card first
-				comp.receiveCard(deck.takeCard());		
-			}
+		Player winner = computerWins(compCard, userCard) ? comp : user;
+		Player loser = winner == comp ? user : comp;
+		computersTurn = winner == comp? true : false; // the winner plays first next time
+		winner.addToCardsWon(compCard, userCard);
+		
+		System.out.println(winner.getName() + " won this round.");
+		
+		if(!deck.isEmpty()) {
+			winner.receiveCard(deck.takeCard());	// the computer takes a card first
+			loser.receiveCard(deck.takeCard());
 		}
 
 	}
@@ -100,18 +97,14 @@ public class Game {
 		// if cards are not same suit	
 		}else {
 			// if none of the cards has the trionfi suit, the winner is whoever played first
-			if(!isTrionfi(compCard) && !isTrionfi(userCard)) {
+			if(!compCard.isTrionfi(trionfiSuit) && !userCard.isTrionfi(trionfiSuit)) {
 				return computersTurn;
 			}else {
 				// one of them used a trionfi: if the computer's card is trionfi, the computer wins. if not, the user wins.
-				return isTrionfi(compCard);
+				return compCard.isTrionfi(trionfiSuit);
 			}
 			
 		}
-	}
-	
-	private boolean isTrionfi(Card c) {
-		return c.isSameSuit(trionfi);
 	}
 
 }
