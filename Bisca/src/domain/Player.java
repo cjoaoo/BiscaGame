@@ -3,7 +3,11 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class Player {
+/**
+ * @author catarinajoao
+ * Represents a player of Bisca.
+ */
+public abstract class Player {
 	
 	// attributes
 	protected String name;
@@ -13,15 +17,19 @@ abstract public class Player {
 
 	// constructor
 	/**
+	 * Creates a player with a name.
 	 * @param name of the player
 	 */
-	public Player(String name) {
+	protected Player(String name) {
 		this.name = name;
 		gamesWon = 0;
 	}
 	
-	// getters
+	// methods
 	
+	/**
+	 * @return name of this player
+	 */
 	public String getName() {
 		return name;
 	}
@@ -32,14 +40,19 @@ abstract public class Player {
 	public int getGamesWon() {
 		return gamesWon;
 	}
+
 	
-	// methods
-	
+	/**
+	 * Makes a player ready to start a game.
+	 */
 	public void startGame() {
 		currentCards = new ArrayList<>();
 		cardsWon = new ArrayList<>();
 	}
 	
+	/**
+	 * @return a list of the cards of the player
+	 */
 	public List<Card> showHand(){
 		ArrayList<Card> copy = new ArrayList<>();
 		for(Card c: currentCards) {
@@ -48,18 +61,30 @@ abstract public class Player {
 		return copy;
 	}
 	
-	abstract public Card playFirst();
-	abstract public Card playSecond(Card c, Suit trionfiSuit);
+	public abstract Card playFirst();
+	public abstract Card playSecond(Card c, Suit trionfiSuit);
 	
+	/**
+	 * The player adds this card to their current cards
+	 * @param c - a card
+	 */
 	public void receiveCard(Card c) {
 		currentCards.add(c);
 	}
 	
+	/**
+	 * The player adds these cards to their pile of cards won
+	 * @param c1 - a card
+	 * @param c2 - another card
+	 */
 	public void addToCardsWon(Card c1, Card c2) {
 		cardsWon.add(c1);
 		cardsWon.add(c2);
 	}
 	
+	/**
+	 * @return true if the player still has cards left to play
+	 */
 	public boolean stillHasCards() {
 		return !currentCards.isEmpty();
 	}
@@ -76,6 +101,9 @@ abstract public class Player {
 		return points;
 	}
 	
+	/**
+	 * Adds a victory to the player's number of victories
+	 */
 	public void addVictory() {
 		gamesWon++;
 	}
