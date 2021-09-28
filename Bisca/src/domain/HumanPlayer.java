@@ -2,15 +2,25 @@ package domain;
 
 import java.util.Scanner;
 
+/**
+ * This class represent the human player of BiscaGame.
+ * @author catarinajoao
+ *
+ */
 public class HumanPlayer extends Player{
 	
 	Scanner sc;
 
+	/**
+	 * Creates a player with a name.
+	 * @param name of the player
+	 * @param sc scanner that reads player input
+	 */
 	public HumanPlayer(String name, Scanner sc) {
 		super(name);
 		this.sc = sc;
 	}
-	
+
 	@Override
 	public Card playFirst() {
 		return play();
@@ -23,18 +33,23 @@ public class HumanPlayer extends Player{
 
 	// private methods
 	
+	/**
+	 * @return the card chosen to play
+	 */
 	private Card play() {
 		
 		showCards();
 		int option = askForInput();
 		Card chosen = playCard(option);
-		System.out.println(name + " played the " + chosen.toString() + ".");
 		return chosen;
 	}
 	
+	/**
+	 * Prints the current hand so that the player can chose
+	 */
 	private void showCards() {
 		
-		System.out.println("Your current cards are:");
+		System.out.println("\nYour current cards are:");
 		int i = 1;
 		for(Card c : currentCards) {
 			System.out.println(i + ". " + c.toString());
@@ -42,16 +57,20 @@ public class HumanPlayer extends Player{
 		}
 	}
 
+	/**
+	 * @return number of the option chosen
+	 * @ensures 1 <= number <= number of cards available
+	 */
 	private int askForInput() {
 		int option = -1;
 		boolean valid = false;
-		System.out.println("\nWhat card do you want to play? Please type the number of the option.");
+		System.out.println("What card do you want to play? Please type the number of the option.");
 		
 		do {
 			try {
 				option = sc.nextInt();
 				}catch(Exception e) {
-					// do nothing
+					sc.nextLine();
 				}
 			if(option >= 1 && option <= currentCards.size()) {
 				valid = true;
@@ -63,8 +82,13 @@ public class HumanPlayer extends Player{
 		return option;
 	}
 
-
 	
+	/**
+	 * Takes a card from the player's current cards.
+	 * @param option - number on the list chosen by the player
+	 * @requires 1 <= option <= number of cards available
+	 * @return the card chosen
+	 */
 	private Card playCard(int option) {
 		return currentCards.remove(option-1);
 	}

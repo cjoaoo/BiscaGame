@@ -4,37 +4,44 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
+/**
+ * @author catarinajoao
+ * This class represent the computer player of the Bisca Game.
+ */
 public class ComputerPlayer extends Player{
 
 	// attributes
 	Random r = new Random();
 
-
 	// constructor
+	/**
+	 * Creates a ComputerPlayer with a name
+	 * @param name
+	 */
 	public ComputerPlayer(String name) {
 		super(name);
 	}
 
 
-	// method
+	// methods
 
 	/**
 	 * @requires stillHasCards()
-	 * @return
+	 * @return true if this player still has cards left to play
 	 */
 	public Card playFirst() {
 		return currentCards.remove(r.nextInt(currentCards.size()));
 	}
 
 	/**
-	 * @param c
-	 * @param trionfiSuit
+	 * @param c - card the first player played
+	 * @param trionfiSuit - trionfi suit of the game
 	 * @requires stillHasCards()
-	 * @return
+	 * @return card chosen to play
 	 */
 	public Card playSecond(Card c, Suit trionfiSuit) {
 
-		Card chosen;
+		Card chosen = null;
 
 		// sort cards by rank so that the search is easier 
 		Collections.sort(currentCards, Comparator.comparing(Card::getRank));
@@ -44,7 +51,7 @@ public class ComputerPlayer extends Player{
 			if(hasHigherRankSameSuit(c)) { 
 				chosen = playHigherRankSameSuit(c); // play higher rank of same suit to win it. can be trionfi or not
 			}else {
-				
+
 				if(!c.isTrionfi(trionfiSuit) && hasTrionfi(trionfiSuit)){
 					chosen =  playLowestRankTrionfi(trionfiSuit); // we play the lowest rank trionfi to win the non-trionfi valuable card
 				}else {
@@ -53,18 +60,30 @@ public class ComputerPlayer extends Player{
 			}
 
 		}else { // if the card is not valuable
-			
-			if(onlyHasSevensOrAces() && hasTrionfi(trionfiSuit)) {
-				chosen = playLowestRankTrionfi(trionfiSuit); // play trionfi to save the other cards for later
-			}else {
-				chosen = playLowestRankCard(); // this card may or may not be lost
+			if(onlyHasValuables()) {
+				if(hasHigherRankSameSuit(c)) { 
+					chosen = playHigherRankSameSuit(c); // play higher rank of same suit to win it. can be trionfi or not
+				}else {
+					if(hasTrionfi(trionfiSuit)) {
+						chosen = playLowestRankTrionfi(trionfiSuit); // play trionfi to save the other cards for later
+					}
+				}
 			}
+		}	
+		// if no conditions apply, play lowest rank card. this card may or may not be lost
+		if(chosen == null) {
+			chosen = playLowestRankCard();
 		}
-		System.out.println(name + " played the " + chosen.toString() + ".");
+
+
 		return chosen;
 
 	}
 
+	/**
+	 * @param cardPlayed
+	 * @return true if the player has a card with a higher rank of the same suit as cardPlayer
+	 */
 	private boolean hasHigherRankSameSuit(Card cardPlayed) {
 		for(Card c: currentCards) {
 			if(c.isSameSuit(cardPlayed) && c.isHigherRank(cardPlayed)) {
@@ -73,11 +92,11 @@ public class ComputerPlayer extends Player{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @param cardPlayed
 	 * @requires stillHasCards()
-	 * @return
+	 * @return the card with a higher rank of the same suit as cardPlayer
 	 */
 	private Card playHigherRankSameSuit(Card cardPlayed) {
 		for(Card c: currentCards) {
@@ -92,10 +111,10 @@ public class ComputerPlayer extends Player{
 
 	/**
 	 * @requires stillHasCards()
-	 * @return
+	 * @return true if the player only has cards to play that are worth > 0 points
 	 */
-	private boolean onlyHasSevensOrAces() {
-		return currentCards.get(0).isHigherRank(RankBisca.KING);
+	private boolean onlyHasValuables() {
+		return currentCards.get(0).isHigherRank(RankBisca.SIX);
 	}
 
 
@@ -113,7 +132,11 @@ public class ComputerPlayer extends Player{
 		return currentCards.remove(0);
 	}
 
-	
+
+	/**
+	 * @param trionfiSuit
+	 * @return true if the player has any card of a trionfi suit
+	 */
 	private boolean hasTrionfi(Suit trionfiSuit) {
 		for(Card c: currentCards) {
 			if(c.isTrionfi(trionfiSuit)) {
@@ -124,6 +147,9 @@ public class ComputerPlayer extends Player{
 	}
 
 
+	/**
+	 * @return the lowest rank card this player has
+	 */
 	private Card playLowestRankCard() {
 		return currentCards.remove(0);
 	}
