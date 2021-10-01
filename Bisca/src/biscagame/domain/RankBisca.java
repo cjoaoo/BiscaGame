@@ -1,4 +1,4 @@
-package domain;
+package biscagame.domain;
 
 /**
  * @author catarinajoao

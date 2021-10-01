@@ -1,4 +1,4 @@
-package domain;
+package biscagame.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ public abstract class Player {
 	// attributes
 	protected String name;
 	private int gamesWon;
+	protected Suit trionfi;
 	protected ArrayList<Card> currentCards;
 	private ArrayList<Card> cardsWon;
 
@@ -50,6 +51,17 @@ public abstract class Player {
 		cardsWon = new ArrayList<>();
 	}
 	
+	public void setTrionfi(Suit trionfi) {
+		this.trionfi = trionfi;
+	}
+	
+	/**
+	 * @return the number of cards in the player's hand
+	 */
+	public int currentCardsSize() {
+		return currentCards.size();
+	}
+	
 	/**
 	 * @return a list of the cards of the player
 	 */
@@ -60,9 +72,7 @@ public abstract class Player {
 		}
 		return copy;
 	}
-	
-	public abstract Card playFirst();
-	public abstract Card playSecond(Card c, Suit trionfiSuit);
+
 	
 	/**
 	 * The player adds this card to their current cards

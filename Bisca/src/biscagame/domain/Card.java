@@ -1,4 +1,4 @@
-package domain;
+package biscagame.domain;
 import static utils.Utils.*;
 
 import java.util.Comparator;

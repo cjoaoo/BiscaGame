@@ -1,4 +1,4 @@
-package domain;
+package biscagame.domain;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +11,8 @@ import java.util.Random;
 public class ComputerPlayer extends Player{
 
 	// attributes
-	Random r = new Random();
+	Random r = new Random(1); // seed is only for tests
+	//Random r = new Random();
 
 	// constructor
 	/**
@@ -30,6 +31,7 @@ public class ComputerPlayer extends Player{
 	 * @return true if this player still has cards left to play
 	 */
 	public Card playFirst() {
+		// doesn't order the cards when it plays first
 		return currentCards.remove(r.nextInt(currentCards.size()));
 	}
 
@@ -39,7 +41,7 @@ public class ComputerPlayer extends Player{
 	 * @requires stillHasCards()
 	 * @return card chosen to play
 	 */
-	public Card playSecond(Card c, Suit trionfiSuit) {
+	public Card playSecond(Card c) {
 
 		Card chosen = null;
 
@@ -52,8 +54,8 @@ public class ComputerPlayer extends Player{
 				chosen = playHigherRankSameSuit(c); // play higher rank of same suit to win it. can be trionfi or not
 			}else {
 
-				if(!c.isTrionfi(trionfiSuit) && hasTrionfi(trionfiSuit)){
-					chosen =  playLowestRankTrionfi(trionfiSuit); // we play the lowest rank trionfi to win the non-trionfi valuable card
+				if(!c.isTrionfi(trionfi) && hasTrionfi()){
+					chosen =  playLowestRankTrionfi(); // we play the lowest rank trionfi to win the non-trionfi valuable card
 				}else {
 					chosen = playLowestRankCard(); // this card may or may not be lost
 				}
@@ -64,8 +66,8 @@ public class ComputerPlayer extends Player{
 				if(hasHigherRankSameSuit(c)) { 
 					chosen = playHigherRankSameSuit(c); // play higher rank of same suit to win it. can be trionfi or not
 				}else {
-					if(hasTrionfi(trionfiSuit)) {
-						chosen = playLowestRankTrionfi(trionfiSuit); // play trionfi to save the other cards for later
+					if(hasTrionfi()) {
+						chosen = playLowestRankTrionfi(); // play trionfi to save the other cards for later
 					}
 				}
 			}
@@ -122,9 +124,9 @@ public class ComputerPlayer extends Player{
 	 * @requires hasTrionfi()
 	 * @return the first trionfi it finds. because the list is ordered by rank, it will be the lowest rank
 	 */
-	private Card playLowestRankTrionfi(Suit trionfiSuit) {
+	private Card playLowestRankTrionfi() {
 		for(Card c: currentCards) {
-			if(c.isTrionfi(trionfiSuit)) { 
+			if(c.isTrionfi(trionfi)) { 
 				currentCards.remove(c);
 				return c;
 			}
@@ -137,9 +139,9 @@ public class ComputerPlayer extends Player{
 	 * @param trionfiSuit
 	 * @return true if the player has any card of a trionfi suit
 	 */
-	private boolean hasTrionfi(Suit trionfiSuit) {
+	private boolean hasTrionfi() {
 		for(Card c: currentCards) {
-			if(c.isTrionfi(trionfiSuit)) {
+			if(c.isTrionfi(trionfi)) {
 				return true;
 			}
 		}
