@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
-import domain.BiscaDeck;
-import domain.Card;
-import domain.Deck;
-import domain.RankBisca;
-import domain.Suit;
+import biscagame.domain.BiscaDeck;
+import biscagame.domain.Card;
+import biscagame.domain.Deck;
+import biscagame.domain.RankBisca;
+import biscagame.domain.Suit;
 
 class CardDeckTests {
 	
