@@ -15,6 +15,12 @@ public class Round {
 	boolean computerPlaysFirst;
 	
 	// constructor
+	/**
+	 * @param computer player
+	 * @param human player
+	 * @param computerPlaysFirst - true if the computer is the first player
+	 * @param deck - the current deck of the game
+	 */
 	public Round(ComputerPlayer computer, HumanPlayer human, boolean computerPlaysFirst, BiscaDeck deck) {
 		this.computerPlaysFirst = computerPlaysFirst;
 		this.deck = deck;
@@ -23,22 +29,34 @@ public class Round {
 	}
 	
 	// getters
+	/**
+	 * @return the first card played in this round
+	 */
 	public Card getFirstCard() {
 		return firstCard;
 	}
 	
+	/**
+	 * @return the second card played in this round
+	 */
 	public Card getSecondCard() {
 		return secondCard;
 	}
 	
 	//methods
 	
+	/**
+	 * Starts a round.
+	 */
 	public void startRound() {
 		if(computerPlaysFirst) {
 			firstCard = ((ComputerPlayer)first).playFirst();
 		}
 	}
 	
+	/**
+	 * @param c - card chosen by the human player
+	 */
 	public void humanPlays(Card c) {
 		if(computerPlaysFirst) {
 			secondCard = c;
@@ -48,6 +66,10 @@ public class Round {
 		}
 	}
 	
+	/**
+	 * @param trionfi - the trionfi of this game
+	 * @return true if the computer wins this round
+	 */
 	public boolean computerWins(Suit trionfi) {
 		
 		boolean firstPlayerWins = firstPlayerWins(trionfi);
@@ -57,6 +79,9 @@ public class Round {
 	
 	}
 	
+	/**
+	 * @return DTO with the names of the players, cards player, winner and loser of this round
+	 */
 	public RoundInfo endRound() {
 		
 		winner.addToCardsWon(firstCard, secondCard);

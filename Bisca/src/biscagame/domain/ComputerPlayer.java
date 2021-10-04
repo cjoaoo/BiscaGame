@@ -11,8 +11,8 @@ import java.util.Random;
 public class ComputerPlayer extends Player{
 
 	// attributes
-	Random r = new Random(1); // seed is only for tests
-	//Random r = new Random();
+	// Random r = new Random(1); // seed is only for tests
+	Random r = new Random();
 
 	// constructor
 	/**

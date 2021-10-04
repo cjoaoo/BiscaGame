@@ -10,12 +10,15 @@ import biscagame.domain.Game;
 import biscagame.domain.HumanPlayer;
 import biscagame.domain.RankBisca;
 import biscagame.domain.Suit;
-import biscagame.facade.dto.PlayInfo;
 import biscagame.facade.dto.RoundInfo;
-import utils.Utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Note: tests as they currently are need the Random attribute of ComputerPlayer to have seed == 1
+ * @author catarinajoao
+ *
+ */
 public class PlayerGameTests {
 	
 	String humanInput = "\n1\n\n\n1\n1\n1\n1\n1\n1\n1\n";
@@ -91,7 +94,7 @@ public class PlayerGameTests {
 		
 		// human cards: queen swords, ace clubs, queen clubs
 		// comp cards: 6 clubs, 7 clubs, ace diamonds
-		//human plays ace clubs, computer plays 6 clubs. human wins
+		// human plays ace clubs, computer plays 6 clubs. human wins
 		playRound();
 		assertTrue(human.countPoints() == 20);
 		assertTrue(computer.countPoints() == 0);

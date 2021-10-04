@@ -27,6 +27,10 @@ public class Game {
 
 
 	// constructor
+	/**
+	 * @param computer 
+	 * @param human 
+	 */
 	public Game(ComputerPlayer computer, HumanPlayer human) {
 		this.computer = computer;
 		this.human = human;
@@ -65,6 +69,10 @@ public class Game {
 		return trionfiCard.toString();
 	}
 
+	/**
+	 * Starts a round of Bisca.
+	 * @return if the computer plays first, returns a DTO with the computer's name and card played. if the human plays first, returns null
+	 */
 	public PlayInfo startRound() {
 		currentRound = new Round(computer, human, computerPlaysFirst, deck);
 		currentRound.startRound();
@@ -74,10 +82,19 @@ public class Game {
 		return null;
 	}
 	
+	/**
+	 * Plays the card chosen during this round.
+	 * @param c - the card chosen by the human player
+	 * @requires have used startRound() before
+	 */
 	public void humanPlays(Card c) {
 		currentRound.humanPlays(c);
 	}
 
+	/**
+	 * Ends a round of bisca.
+	 * @return DTO with information of the names of the players, the cards they player, and the winner and loser of the round
+	 */
 	public RoundInfo endRound() {
 		// whoever wins this round will play first in the next round
 		computerPlaysFirst = currentRound.computerWins(trionfi);
@@ -86,20 +103,23 @@ public class Game {
 
 	
 	/**
-	 * @return true if the game has not ended
+	 * @return true if the game has ended (the players have no more cards left)
 	 */
 	public boolean hasEnded() {
 		return !computer.stillHasCards();
 	}
 
+	/**
+	 * @return true if the deck still has cards
+	 */
 	public boolean deckStillHasCards() {
 		return !deck.isEmpty();
 	}
 
 
 	/**
-	 * Ends the game by countin points and adding a victory to the winner. In the event of a tie, no victories are added to the players.
-	 * @return the name of the player who won. In case of a tie, returns ""
+	 * Ends the game by counting points and adding a victory to the winner. In the event of a tie, no victories are added to the players.
+	 * @return DTO with the points of each player and the winner.
 	 */
 	public GameResults endGame() {
 

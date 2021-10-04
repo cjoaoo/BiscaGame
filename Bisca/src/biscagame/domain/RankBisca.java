@@ -13,6 +13,9 @@ public enum RankBisca {
 		this.value = value;
 	}
 	
+	/**
+	 * @return the value a card with this rank is worth in a game of bisca
+	 */
 	public int getValue() {
 		return value;
 	}
