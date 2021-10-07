@@ -40,7 +40,7 @@ public class GameHandler {
 		s.append("\nYour current cards are:\n");
 		int i = 1;
 		for(Card c : human.showHand()) {
-			s.append(i + ". " + c.toString());
+			s.append(i + ". " + c.toString() + "\n");
 			i++;
 		}
 		return s.toString();

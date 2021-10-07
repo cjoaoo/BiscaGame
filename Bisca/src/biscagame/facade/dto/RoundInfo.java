@@ -28,6 +28,7 @@ public class RoundInfo {
 		this.firstCard = firstCard;
 		this.secondCard = secondCard;
 		this.winner = winner;
+		this.loser = loser;
 	}
 
 	/**

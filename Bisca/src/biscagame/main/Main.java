@@ -1,5 +1,6 @@
 package biscagame.main;
 
+
 import java.util.Scanner;
 import biscagame.exceptions.InvalidInputException;
 import biscagame.facade.dto.GameResults;
@@ -24,9 +25,9 @@ public class Main {
 
 
 	public static void main(String[] args) {
-
+		
 		Scanner sc = new Scanner(System.in);
-		System.out.println("What is your name?");
+		System.out.println("Hello. What is your name?");
 		String playerName = sc.nextLine();
 
 		BiscaGame bisca = new BiscaGame(playerName);
@@ -37,10 +38,12 @@ public class Main {
 		if(answerIsYes(sc)) {
 			System.out.println(RULES);
 		}
+		sc.nextLine();
 
-		Utils.sleep(); // to simulate a more natural flow of time
+		
 		System.out.println("Let's play the game.");
-
+		Utils.sleep(); // to simulate a more natural flow of time
+		
 		do {
 			GameHandler handler = bisca.getGameHandler();
 			System.out.println("\nShuffling the deck...");
@@ -53,8 +56,8 @@ public class Main {
 			}
 			GameResults res = handler.getGameResults();
 			System.out.println("Points for " + res.getHuman() + ": " + res.getHumanPoints() + "\nPoints for " + res.getComputer() + ": " + res.getComputerPoints());
+			System.out.println(res.getWinner() + " won the game.\nWould you like to play again? [Y/n]");
 			//System.out.println("So far I have won " + computer.getGamesWon() + " game(s) and you have won " + player.getGamesWon() + " games(s).");
-			System.out.println("Would you like to play again? [Y/n]");
 			
 			}while(answerIsYes(sc));
 		
@@ -85,21 +88,25 @@ public class Main {
 		}
 		
 		private static void playRound(GameHandler handler, Scanner sc) {
+			
+			System.out.println("\n=== New Round ===\n");
 			PlayInfo info = handler.startRound();		
 			if(info != null) { // the computer has already played
-				System.out.println("\n" + info.getPlayer() + " played the " + info.getCard() + ".");
+				System.out.println(info.getPlayer() + " played the " + info.getCard() + ".");
 			}
-			handler.showCards();
+			System.out.println(handler.showCards());
+			System.out.println("Which card would you like to play?");
 			validateAndSendInput(sc, handler);
 
 			RoundInfo round = handler.endRound();
 			System.out.println("\n" + round.getFirstToPlay() + " played the " + round.getFirstCard() + ".");
-			System.out.println("\n" + round.getSecondToPlay() + " played the " + round.getSecondCard() + ".");
-			System.out.println(round.getWinner() + " won this round.");
+			System.out.println(round.getSecondToPlay() + " played the " + round.getSecondCard() + ".");
+			System.out.println("\n" + round.getWinner() + " won this round.");
 			Utils.sleep();
 			if(handler.deckStillHasCards()) {
 				System.out.println("\n" + round.getWinner() + " takes a card from the deck...\n" + round.getLoser() + " takes a card from the deck..." );
 			}
+			
 		}
 
 	}
